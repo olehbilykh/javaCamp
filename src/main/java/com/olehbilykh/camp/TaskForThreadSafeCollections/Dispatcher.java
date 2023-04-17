@@ -33,12 +33,16 @@ public class Dispatcher {
 class Controller {
     public static Map<String, Integer> countWordsWithSameBoundariesInFiles(List<String> files) {
         Map<String, Integer> map = Collections.synchronizedMap(new HashMap<>());
-        try (ExecutorService es = Executors.newFixedThreadPool(files.size())) {
+        ExecutorService es = null;
+        try {
+            es = Executors.newFixedThreadPool(files.size());
             for (String file : files) {
                 es.execute(new CustomThread(map, file));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            es.shutdown();
         }
 
         return map;

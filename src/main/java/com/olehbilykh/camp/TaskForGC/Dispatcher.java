@@ -24,8 +24,8 @@ class Car {
         this.model = model;
     }
 
-    @Override
-    protected void finalize() {
-        System.out.println(this.model);
-    }
+//    @Override
+//    protected void finalize() {
+//        System.out.println(this.model);
+//    }
 }
