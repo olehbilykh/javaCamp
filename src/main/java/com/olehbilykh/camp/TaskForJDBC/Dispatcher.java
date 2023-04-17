@@ -27,21 +27,20 @@ public class Dispatcher {
 }
 
 class Barmen {
-    private final String PASSWORD = "postgres";
-    private final String USER = "postgres";
-    private final String URL = "jdbc:postgresql://localhost:5432/postgres";
-    private final String ALL_QUERY = "SELECT id, type, volume, material FROM beverages";
-    private final String SMALL_DRINKS_QUERY = "SELECT id, type, volume, material FROM beverages WHERE volume <= 0.5";
-    private final String MIDDLE_DRINKS_QUERY = "SELECT id, type, volume, material FROM beverages WHERE volume BETWEEN 0.5 and 1";
-    private final String LARGE_DRINKS_QUERY = "SELECT id, type, volume, material FROM beverages WHERE volume >= 1";
+    private final String password = "postgres";
+    private final String user = "postgres";
+    private final String url = "jdbc:postgresql://localhost:5432/postgres";
+    private final String allQuery = "SELECT id, type, volume, material FROM beverages";
+    private final String smallDrinksQuery = "SELECT id, type, volume, material FROM beverages WHERE volume <= 0.5";
+    private final String middleDrinksQuery = "SELECT id, type, volume, material FROM beverages WHERE volume BETWEEN 0.5 and 1";
+    private final String largeDrinksQuery = "SELECT id, type, volume, material FROM beverages WHERE volume >= 1";
+    private final String winesQuery = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
+    private final String watersQuery = "SELECT id, type, volume, material FROM beverages WHERE type = 'water'";
+    private final String juicesQuery = "SELECT id, type, volume, material FROM beverages WHERE type = 'juice'";
 
-    private final String WINES_QUERY = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
-    private final String WATERS_QUERY = "SELECT id, type, volume, material FROM beverages WHERE type = 'water'";
-    private final String JUICES_QUERY = "SELECT id, type, volume, material FROM beverages WHERE type = 'juice'";
-
-    private final String METAL_CANS_QUERY = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
-    private final String GLASS_BOTTLES_QUERY = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
-    private final String PLASTIC_BOTTLES_QUERY = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
+    private final String metalCansQuery = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
+    private final String glassBottlesQuery = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
+    private final String plasticBottlesQuery = "SELECT id, type, volume, material FROM beverages WHERE type = 'wine'";
     private final Map<Integer, Beverage> beverages;
 
     public Barmen() {
@@ -51,7 +50,7 @@ class Barmen {
     private void checkDb(String query) {
         Beverage beverage;
         try (Connection connection = DriverManager
-                .getConnection(URL, USER, PASSWORD)) {
+                .getConnection(url, user, password)) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -68,12 +67,12 @@ class Barmen {
     }
 
     public Collection<Beverage> showMenu() {
-        checkDb(ALL_QUERY);
+        checkDb(allQuery);
         return beverages.values();
     }
 
     public Collection<Beverage> getSmallDrinks() {
-        checkDb(SMALL_DRINKS_QUERY);
+        checkDb(smallDrinksQuery);
         return beverages.values();
     }
 }
