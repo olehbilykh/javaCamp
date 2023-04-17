@@ -33,14 +33,14 @@ class MyCustomClass {
         MyCustomClass myCustomClass = new MyCustomClass();
 
         Runnable r = () -> {
-            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForMultithreading/inputFiles/first.txt");
-            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForMultithreading/inputFiles/second.txt");
-            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForMultithreading/inputFiles/third.txt");
+            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/first.txt");
+            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/second.txt");
+            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/third.txt");
         };
         Runnable runnableAtomic = () -> {
-            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForMultithreading/inputFiles/first.txt");
-            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForMultithreading/inputFiles/second.txt");
-            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForMultithreading/inputFiles/third.txt");
+            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/first.txt");
+            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/second.txt");
+            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/third.txt");
         };
 //        non-atomic
         long time1 = System.currentTimeMillis();
