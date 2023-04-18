@@ -1,9 +1,14 @@
 package com.olehbilykh.camp.TaskForMultithreading;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.util.concurrent.Callable;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.*;
 
 /**
  * Створити багатопотокову систему для визначення кількості
@@ -16,45 +21,105 @@ import java.util.concurrent.Callable;
  * створити TreeSet, посортований за кількістю розділових знаків у файлах від більшого
  * значення до меншого, (використати обгортку або підклас класу File).
  */
+
+
 public class Dispatcher {
-    public static void main(String[] args) throws Exception {
-        Runnable r = () -> {
-            try (Scanner scanner = new Scanner(new File("src/com/sigma/camp/TaskForMultithreading/inputFiles/first.txt"))) {
-                String tmp = "";
-                while (scanner.hasNext()) {
-                    if (!scanner.hasNext("\\p{Punct}&&[^@',&]]")) {
-                        tmp = scanner.next();
-                    } else {
-                        scanner.next();
-                    }
-                }
-                System.out.println(tmp.length());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        };
-
-        new Thread(r).start();
-
-
+    public static void main(String[] args) {
+        System.out.println(Controller.createSetOfMyFiles(
+                new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/first.txt"),
+                new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/second.txt"),
+                new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/third.txt"))
+        );
     }
 }
 
-class CustomFile implements Callable<Integer> {
-
-
-    @Override
-    public Integer call() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(""));
-        String tmp = "";
-        while (scanner.hasNext()) {
-            if (!scanner.hasNext("\\p{Punct}&&[^@',&]]")) {
-                tmp = scanner.next();
-            } else {
-                scanner.next();
-            }
+class Controller {
+    public static Set<FileWrapper> createSetOfMyFiles(FileWrapper... files) {
+        Set<FileWrapper> result = new TreeSet<>();
+        List<FileHandler> fileHandlers = new ArrayList<>();
+        for (FileWrapper file : files) {
+            fileHandlers.add(new FileHandler(file));
         }
-        return tmp.length();
+
+        try (ExecutorService ex = Executors.newFixedThreadPool(files.length)) {
+            List<Future<FileWrapper>> futures = ex.invokeAll(fileHandlers);
+            for (Future<FileWrapper> future : futures) {
+                result.add(future.get());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+}
+
+class FileWrapper implements Comparable<FileWrapper> {
+    private int count;
+    private File file;
+
+    public FileWrapper(File file) {
+        this.file = file;
     }
 
+    public FileWrapper(String path) {
+        this.file = new File(path);
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public void incrementCount() {
+        count++;
+    }
+
+    @Override
+    public String toString() {
+        return "FileWrapper{" +
+                "count=" + count +
+                ", file=" + file +
+                '}';
+    }
+
+    @Override
+    public int compareTo(FileWrapper o) {
+        return o.count - count;
+    }
+
+}
+
+class FileHandler implements Callable<FileWrapper> {
+    private final FileWrapper file;
+
+    public FileHandler(FileWrapper file) {
+        this.file = file;
+    }
+
+    @Override
+    public FileWrapper call() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file.getFile()))) {
+            int symbol;
+            while ((symbol = reader.read()) != -1) {
+                char c = (char) symbol;
+                if (c == '.' || c == ',' || c == ';' || c == ':' || c == '!' || c == '?') {
+                    file.incrementCount();
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
 }
