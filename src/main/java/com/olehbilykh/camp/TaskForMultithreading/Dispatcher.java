@@ -28,7 +28,7 @@ public class Dispatcher {
         System.out.println(Controller.createSetOfMyFiles(
                 new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/first.txt"),
                 new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/second.txt"),
-                new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/third.txt"))
+                new FileWrapper("src/main/java/com/olehbilykh/camp/TaskForMultithreading/inputFiles/inputFile.txt"))
         );
     }
 }

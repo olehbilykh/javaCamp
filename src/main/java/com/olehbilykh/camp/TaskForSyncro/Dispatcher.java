@@ -35,12 +35,12 @@ class MyCustomClass {
         Runnable r = () -> {
             myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/first.txt");
             myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/second.txt");
-            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/third.txt");
+            myCustomClass.calculateNumberInFile("src/com/sigma/camp/TaskForSyncro/inputFiles/inputFile.txt");
         };
         Runnable runnableAtomic = () -> {
             myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/first.txt");
             myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/second.txt");
-            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/third.txt");
+            myCustomClass.calculateNumberInFileAtomic("src/com/sigma/camp/TaskForSyncro/inputFiles/inputFile.txt");
         };
 //        non-atomic
         long time1 = System.currentTimeMillis();

@@ -21,7 +21,7 @@ public class Dispatcher {
     static List<String> files = new ArrayList<>(List.of(
             "src/com/sigma/camp/TaskForThreadSafeCollections/inputFiles/first.txt",
             "src/com/sigma/camp/TaskForThreadSafeCollections/inputFiles/second.txt",
-            "src/com/sigma/camp/TaskForThreadSafeCollections/inputFiles/third.txt"
+            "src/com/sigma/camp/TaskForThreadSafeCollections/inputFiles/inputFile.txt"
     ));
 
     public static void main(String[] args) {

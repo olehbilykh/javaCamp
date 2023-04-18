@@ -19,7 +19,7 @@ public class Dispatcher {
         String[] filenames = {
                 "src/main/java/com/olehbilykh/camp/TaskForLocks/inputFiles/first.txt",
                 "src/main/java/com/olehbilykh/camp/TaskForLocks/inputFiles/second.txt",
-                "src/main/java/com/olehbilykh/camp/TaskForLocks/inputFiles/third.txt"
+                "src/main/java/com/olehbilykh/camp/TaskForLocks/inputFiles/inputFile.txt"
         };
         Thread[] threads = new Thread[filenames.length];
         int i = 0;
@@ -28,45 +28,38 @@ public class Dispatcher {
             threads[i++] = t;
             t.start();
         }
-
         for (Thread t : threads) {
             t.join();
         }
         System.out.println("Total sum: " + Result.sum);
     }
+}
 
-    static class Result {
-        private static final ReentrantLock sumLock = new ReentrantLock();
-        private static int sum = 0;
+class Result {
+    public static final ReentrantLock sumLock = new ReentrantLock();
+    public static int sum = 0;
+}
+
+record CustomThread(String filename) implements Runnable {
+    @Override
+    public void run() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sumDigits(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static class CustomThread implements Runnable {
-        private final String filename;
-
-        public CustomThread(String filename) {
-            this.filename = filename;
-        }
-
-        @Override
-        public void run() {
-            try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sumDigits(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void sumDigits(String text) {
-            for (int i = 0; i < text.length(); i++) {
-                char c = text.charAt(i);
-                if (Character.isDigit(c)) {
-                    Result.sumLock.lock();
-                    Result.sum += Character.getNumericValue(c);
-                    Result.sumLock.unlock();
-                }
+    private void sumDigits(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (Character.isDigit(c)) {
+                Result.sumLock.lock();
+                Result.sum += Character.getNumericValue(c);
+                Result.sumLock.unlock();
             }
         }
     }

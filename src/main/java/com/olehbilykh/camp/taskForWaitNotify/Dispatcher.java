@@ -28,13 +28,13 @@ public class Dispatcher {
         String[] files = {
                 "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/first.txt",
                 "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/second.txt",
-                "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/third.txt",
+                "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/inputFile.txt",
                 "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/first.txt",
                 "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/second.txt",
-                "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/third.txt",
+                "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/inputFile.txt",
                 "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/first.txt",
                 "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/second.txt",
-                "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/third.txt",
+                "src/main/java/com/olehbilykh/camp/TaskForWaitNotify/inputFiles/inputFile.txt",
         };
         long startTime = 0;
         // With notify
