@@ -3,6 +3,7 @@ package com.olehbilykh.camp.TaskForStreamsBasic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * На основі методів інтерфейсу Stream виконати наступні дії:
@@ -26,9 +27,17 @@ public class Dispatcher {
         List<Integer> ints = new ArrayList<>(List.of(-5, 3, 2, Integer.MAX_VALUE, 0, -25, Integer.MIN_VALUE, 324243, -54345));
         List<Integer> negativeInts = ints.stream().filter(i -> i < 0).toList();
         List<Integer> positiveInts = ints.stream().filter(i -> i >= 0).toList();
-        negativeInts.forEach(System.out::println);
-        positiveInts.forEach(System.out::println);
+//        negativeInts.forEach(System.out::println);
+//        positiveInts.forEach(System.out::println);
+
+        int[] mergeSorted = mergeSorted(new int[]{1, 4, 7}, new int[]{2, 5, 9});
+        Arrays.stream(mergeSorted).forEach(System.out::println);
     }
 
+    // i1 1 4 7
+    // i2 2 5 9
+    // out 1 2 4 5 7 9
+    public static int[] mergeSorted(int[] input1, int[] input2) {
+        return IntStream.concat(IntStream.of(input1), IntStream.of(input2)).sorted().toArray();
+    }
 }
-
